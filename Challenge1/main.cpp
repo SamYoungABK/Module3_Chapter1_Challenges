@@ -6,8 +6,10 @@
 #include <vector>
 #include "main.h"
 
-using std::cout; using std::vector;
-using std::endl;
+using std::cout; using std::endl; using std::fixed;
+using std::vector;
+using namespace std::chrono;
+using std::time;
 
 void TestSort(int size);
 void InsertionSort(vector<int>& arr);
@@ -17,12 +19,12 @@ vector<int> BuildArray(int size);
 void TestSort(int size)
 {
 	vector<int> arr = BuildArray(size);
-	auto start = std::chrono::steady_clock::now();
+	auto start = steady_clock::now();
 	InsertionSort(arr);
-	auto end = std::chrono::steady_clock::now();
-	std::chrono::duration<int, std::nano> diff = end - start;
+	auto end = steady_clock::now();
+	duration<int, std::nano> diff = end - start;
 	cout << "Array Size: " << size << endl;
-	cout << "Time Taken: " << std::fixed << diff.count() << " nanoseconds" << endl;
+	cout << "Time Taken: " << fixed << diff.count() << " nanoseconds" << endl;
 }
 
 void InsertionSort(vector<int> &arr)
@@ -78,7 +80,7 @@ vector<int> BuildArray(int size)
 
 int main()
 {
-	srand(std::time(NULL));
+	srand(time(NULL));
 	
 	for(int i = 100; i < 10000000; i*=10) TestSort(i);
 
