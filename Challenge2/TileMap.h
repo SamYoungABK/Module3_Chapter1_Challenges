@@ -18,9 +18,9 @@ class TileMap
 
 
 public:
-
-	Tile GetTile(int x, int y) { return _tileArr[x][y]; };
-	Tile GetTile(Coordinate c) { return _tileArr[c.first][c.second]; };
+	void BuildWall(Coordinate location, int length);
+	Tile& GetTile(int x, int y) { return _tileArr[x][y]; };
+	Tile& GetTile(Coordinate c) { return _tileArr[c.first][c.second]; };
 	int GetCost(Coordinate c) { return (_tileArr[c.first][c.second]).GetCost(); };
 
 	void Draw();
@@ -30,7 +30,7 @@ public:
 	vector<Coordinate> GetAdjacent(Coordinate c);
 	void BuildTileArray();
 	std::vector<Coordinate> ReconstructPath(map<Coordinate, Coordinate> cameFrom, Coordinate current);
-	void FilterPassableTiles(vector<Coordinate>& coordList);
+	vector<Coordinate> FilterPassableTiles(vector<Coordinate> coordList);
 	
 	bool IsCoordInPath(Coordinate c) { return (std::find(_path.begin(), _path.end(), c) != _path.end()) ? true : false;  };
 

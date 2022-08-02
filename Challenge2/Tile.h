@@ -15,7 +15,7 @@ public:
 	{};
 
 
-	int MakeWall() { _passable = false; };
+	void MakeWall() { _passable = false; };
 	int GetCost() { return _cost; };
 	bool IsPassable() { return _passable; };
 };

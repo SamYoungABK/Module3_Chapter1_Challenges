@@ -20,21 +20,26 @@ vector<Coordinate> TileMap::GetAdjacent(Coordinate c)
 {
 	vector<Coordinate> result;
 
-	if (c.getNorth().second >= 0) result.push_back(c.getNorth());
-	if (c.getEast().first < _width) result.push_back(c.getEast());
-	if (c.getSouth().second < _height) result.push_back(c.getSouth());
-	if (c.getWest().first >= 0) result.push_back(c.getWest());
+	if (c.GetNorth().second >= 0) result.push_back(c.GetNorth());
+	if (c.GetEast().first < _width) result.push_back(c.GetEast());
+	if (c.GetSouth().second < _height) result.push_back(c.GetSouth());
+	if (c.GetWest().first >= 0) result.push_back(c.GetWest());
 	
-	FilterPassableTiles(result);
+	result = FilterPassableTiles(result);
 
 	return result;
 }
 
-void TileMap::FilterPassableTiles(vector<Coordinate>& coordList)
+vector<Coordinate> TileMap::FilterPassableTiles(vector<Coordinate> coordList)
 {
+	vector<Coordinate> result;
 	for (vector<Coordinate>::iterator it = coordList.begin(); it < coordList.end(); it++)
-		if (GetTile(*it).IsPassable() == false)
-			coordList.erase(it);
+		if (GetTile(*it).IsPassable())
+		{
+			result.push_back(*it);
+		}
+			
+	return result;
 }
 
 Coordinate TileMap::FindLowestCost(vector<Coordinate>& coordList)
@@ -56,17 +61,34 @@ Coordinate TileMap::FindLowestCost(vector<Coordinate>& coordList)
 
 void TileMap::Draw()
 {
+	for (int j = 0; j <= _width+1; ++j) cout << char(219);
+	cout << endl;
 	for (int i = 0; i < _height; ++i)
 	{
+		cout << char(219);
 		for (int j = 0; j < _width; ++j)
 		{
 			if (Coordinate(i, j) == _start) cout << 'S';
 			else if (Coordinate(i, j) == _goal) cout << 'G';
-			else if (IsCoordInPath(Coordinate(i, j))) cout << '$';
-			else if (GetTile(i, j).IsPassable()) cout << '.';
-			else cout << '#';
+			else if (IsCoordInPath(Coordinate(i, j))) cout << '*';
+			else if (GetTile(i, j).IsPassable()) cout << ' ';
+			else cout << char(219);
 		}
+		cout << char(219);
 		cout << endl;
+	}
+	for (int j = 0; j <= _width+1; ++j) cout << char(219);
+	cout << endl;
+}
+
+void TileMap::BuildWall(Coordinate location, int length)
+{
+	int builtLength = 0;
+	while (builtLength < length)
+	{
+		GetTile(location).MakeWall();
+		location = location.GetEast();
+		builtLength++;
 	}
 }
 
