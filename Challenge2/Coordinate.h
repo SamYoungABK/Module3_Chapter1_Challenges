@@ -29,10 +29,10 @@ public:
 	Coordinate operator-(Coordinate rhs) { return Coordinate(first - rhs.first, second - rhs.second); };
 	Coordinate operator-=(Coordinate rhs) { first - rhs.first; second - rhs.second; return *this; };
 
-	Coordinate getNorth() { return *this + north; };
-	Coordinate getEast() { return *this + east; };
-	Coordinate getSouth() { return *this + south; };
-	Coordinate getWest() { return *this + west; };
+	Coordinate GetNorth() { return *this + north; };
+	Coordinate GetEast() { return *this + east; };
+	Coordinate GetSouth() { return *this + south; };
+	Coordinate GetWest() { return *this + west; };
 
 	float Slope(Coordinate rhs) { return (rhs.second - second) / (rhs.first - first); };
 
